@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html ng-app="Tutor">
+	<head>
+		<script src="/static/libraries/angular.js"></script>
+    	<script src="/static/libraries/ui-bootstrap-tpls-0.12.0.js"></script>
+        <link href="/static/libraries/bootstrap.min.css" rel="stylesheet">
+        <link href="/static/css/question_create.css" rel="stylesheet">
+		<script type="text/javascript" src="/static/js/app.js"></script>
+		<link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+	</head>
+	<body ng-controller="Test_Creation_Manager as Manager" style="height:640px;padding-top: 64px;background-color:#fff;">
+		<nav class="navbar navbar-default navbar-fixed-top">
+			<div class="navbar-header">
+				<nav class="container">
+			    	<div class="row">
+			    		<div class="col-md-2">
+						    <a class="navbar-brand" style="margin-top: 20px;" href="#">
+						        <strong>Tutor Platform</strong>
+						    </a>
+						</div>
+						<div class="col-md-9"></div>
+						<div class="col-md-1" style="margin-top:10px;">
+							<a href="" class="btn btn-default" ng-click = "Manager.logout_user()">Logout</a>
+						</div>
+					</div>	
+			    </div>
+			</nav>
+		</nav>
+		<div class="sub-bar heading-font">
+			<div class="row">
+				<div class="col-md-1"></div>
+				<div class="col-md-10">
+					<div style="margin-top:18px;">
+						Test Development Workshop
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row content_container" style="height:100%;width:100%;">
+			<div class="col-md-3 login_section" style="height:100%;">
+				<div class="row">
+					<div style="width:100%;height:50px;" class="col-md-12 menu_item">
+						<div class="menu_text_content links-font" ng-click="Manager.show_view(1)"><strong >Basic Information</strong></div>
+					</div>
+				</div>
+				<div ng-repeat= "question in Manager.question_queue">
+					<div class="row">
+						<div style="width:100%;height:50px;" class="col-md-12 menu_item">
+							<div class="menu_text_content links-font" ng-click=""><strong><a href="#question_{% verbatim %}{{$index + 1}}{% endverbatim %}">Question No. {% verbatim %}{{$index + 1}}{% endverbatim %}</a></strong></div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div style="width:100%;height:50px;" class="col-md-12 menu_item">
+						<div class="menu_text_content links-font" ng-click="Manager.show_view(3)"><strong>Class Association</strong></div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-1"></div>
+			<div class="col-md-8 heading_section">
+				<div id="pre_test_container" style= "padding-top:40px;padding-bottom:40px;" ng-hide= "Manager.mode !==1">
+					<div class="row" id="pre_test_head">
+						<div class="col-md-1"></div>
+						<div class="section_head subheading-font">
+							Basic Information:
+						</div>
+					</div>
+					<div class="row well detail" id="pre_test_detail">
+						<div class="row element">
+							<div class="item_desc col-md-3 regular-font">Test Name:</div>
+							<div class="item_desc col-md-4">
+								<input class="form-control" type="text" placeholder="JEE Physics Paper 1" ng-model="Manager.pre_test['test_name']">
+							</div>
+							<div class="item_desc col-md-2"></div>
+						</div>
+						<div class="row element">
+							<div class="item_desc col-md-3 regular-font">Subject:</div>
+							<div class="item_desc col-md-4">
+								<input class="form-control" type="text" placeholder="Physics" ng-model="Manager.pre_test['subject']">
+							</div>
+							<div class="item_desc col-md-2"></div>
+						</div>
+						<div class="row element">
+							<div class="item_desc col-md-3 regular-font">Target Exam:</div>
+							<div class="item_desc col-md-4">
+								<input class="form-control" type="text" placeholder="IIT JEE" ng-model="Manager.pre_test['target_exam']">
+							</div>
+							<div class="item_desc col-md-2"></div>
+						</div>
+						<div class="row element">
+							<div class="item_desc col-md-3 regular-font">Topics Included:</div>
+							<div class="item_desc col-md-4">
+								<input class="form-control" type="text" placeholder="Electromagnetism, Angular Motion" ng-model="Manager.pre_test['topics_included']">
+							</div>
+							<div class="item_desc col-md-2"></div>
+						</div>
+						<div class="row element">
+							<div class="item_desc col-md-3 regular-font">Total Time:</div>
+							<div class="item_desc col-md-4">
+								<input class="form-control" type="text" placeholder="IIT JEE" ng-model="Manager.pre_test['total_time']">
+							</div>
+							<div class="item_desc col-md-2"></div>
+						</div>
+						<div class="row element">
+							<div class="item_desc col-md-3 regular-font">Passing Criteria (in %):</div>
+							<div class="item_desc col-md-2">
+								<input class="form-control" type="text" placeholder="40" ng-model="Manager.pre_test['pass_criteria']">
+							</div>
+							<div class="item_desc col-md-2"></div>
+						</div>
+						<div class="row element" style="margin-top:20px;">
+							<div class="item_desc col-md-3"></div>
+							<div class="item_desc col-md-6">
+								<a class="btn btn-primary success regular-font" ng-click="Manager.update_mode()">Start Creating Questions</a>
+							</div>
+							<div class="item_desc col-md-3"></div>
+						</div>
+					</div>
+				</div>
+				<div id="question_template" style= "padding-top:40px;padding-bottom:40px;" ng-hide= "Manager.mode !==2">
+					<div class="row" id="question_head" style="padding-bottom:20px;">
+						<div class="col-md-1"></div>
+						<div class="section_head subheading-font">
+							Start Creating Questions:
+						</div>
+					</div>
+					<div class="row" id="questions_container">
+						<div id="question_body">
+							<div ng-repeat = "question in Manager.question_queue">
+								<div class="row" id="question_{% verbatim %}{{$index + 1}}{% endverbatim %}">
+									<div class="item_desc col-md-1">Q.{% verbatim %}{{question_no}}{% endverbatim %}</div>
+									<div class="item_desc col-md-10">
+										<input class="form-control" type="text" placeholder="Write the Question here" ng-model="question.question_text">
+									</div>
+								</div>
+								<div class="row" style="margin-top:20px;">
+									<div class="item_desc col-md-1"></div>
+									<div class="item_desc col-md-2 regular-font">Points:</div>
+									<div class="item_desc col-md-3">
+										<input class="form-control" type="text" placeholder="Points" ng-model="question.points">
+									</div>
+									<div class="item_desc col-md-1 regular-font">Topic:</div>
+									<div class="item_desc col-md-1"></div>
+									<div class="item_desc col-md-3" >
+										<input class="form-control" type="text" placeholder="Points" ng-model="question.section">
+									</div>
+								</div>
+								<div class="row" style="margin-top:20px;">
+									<div class="item_desc col-md-1"></div>
+									<div class="item_desc col-md-2 regular-font">Difficulty Level:</div>
+									<div class="item_desc col-md-3">
+										<input class="form-control" type="text" placeholder="Points" ng-model="question.difficulty_level">
+									</div>
+									<div class="item_desc col-md-1 regular-font">Negative Points:</div>
+									<div class="item_desc col-md-1"></div>
+									<div class="item_desc col-md-3" >
+										<input class="form-control" type="text" placeholder="Points" ng-model="question.negetive_points">
+									</div>
+								</div>
+								<div class="row" style="margin-top:20px;">
+									<div class="item_desc col-md-1"></div>
+									<div class="item_desc col-md-2 regular-font">Hint:</div>
+									<div class="item_desc col-md-8" >
+										<input class="form-control" type="text" placeholder="Hint" ng-model="question.hint">
+									</div>
+								</div>
+								<div class="row" style="margin-top:20px;">
+									<div class="item_desc col-md-1"></div>
+									<div class="item_desc col-md-2 regular-font">Explanation:</div>
+									<div class="item_desc col-md-8" >
+										<input class="form-control" type="text" placeholder="Write the Explanation here" ng-model="question.explanation">
+									</div>
+								</div>
+								<div class="create_option">
+									<div class="row" style="margin-top:5px;" ng-repeat="option in question.options">
+										<div class="item_desc col-md-1"></div>
+										<div class="item_desc col-md-10">
+											<div class="input-group">
+										    	<span class="input-group-addon">
+										        	<input type="checkbox" placeholder="Option 1" aria-label="..." ng-model="option.correct">
+										      	</span>
+										      	<input type="text" class="form-control" placeholder="Option 1" aria-label="option1" ng-model="option.option">
+										    </div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div id="question_body" class="well detail">	
+							<div id="question_current">
+								<div class="row" id="question_{% verbatim %}{{$index + 1}}{% endverbatim %}_body">
+									<div class="item_desc col-md-1">Q.{% verbatim %}{{Manager.question_no}}{% endverbatim %}</div>
+									<div class="item_desc col-md-10">
+										<input class="form-control" type="text" placeholder="Write the Question here" ng-model="Manager.question_obj.question_text">
+									</div>
+								</div>
+								<!--
+								<div class="row" style="margin-top:20px;">
+									<div class="item_desc col-md-1"></div>
+									<div class="item_desc col-md-2 regular-font">Question Type:</div>
+									<div class="btn-group" role="group">
+										<button type="button" class="btn btn-default regular-font">Multiple Chioce Question</button>
+										<button type="button" class="btn btn-default">Text Based Question</button>
+									</div>
+								</div>
+								!-->
+								<div class="row" style="margin-top:20px;">
+									<div class="item_desc col-md-1"></div>
+									<div class="item_desc col-md-2 regular-font">Points:</div>
+									<div class="item_desc col-md-3">
+										<input class="form-control" type="text" placeholder="Points" ng-model="Manager.question_obj.points">
+									</div>
+									<div class="item_desc col-md-1 regular-font">Topic:</div>
+									<div class="item_desc col-md-1"></div>
+									<div class="item_desc col-md-3" >
+										<input class="form-control" type="text" placeholder="Points" ng-model="Manager.question_obj.section">
+									</div>
+								</div>
+								<div class="row" style="margin-top:20px;">
+									<div class="item_desc col-md-1"></div>
+									<div class="item_desc col-md-2 regular-font">Difficulty Level:</div>
+									<div class="item_desc col-md-3">
+										<input class="form-control" type="text" placeholder="Points" ng-model="Manager.question_obj.difficulty_level">
+									</div>
+									<div class="item_desc col-md-1 regular-font">Negative Points:</div>
+									<div class="item_desc col-md-1"></div>
+									<div class="item_desc col-md-3" >
+										<input class="form-control" type="text" placeholder="Points" ng-model="Manager.question_obj.negetive_points">
+									</div>
+								</div>
+								<div class="row" style="margin-top:20px;">
+									<div class="item_desc col-md-1"></div>
+									<div class="item_desc col-md-2 regular-font">Hint:</div>
+									<div class="item_desc col-md-8" >
+										<input class="form-control" type="text" placeholder="Hint" ng-model="Manager.question_obj.hint">
+									</div>
+								</div>
+								<div class="row" style="margin-top:20px;">
+									<div class="item_desc col-md-1"></div>
+									<div class="item_desc col-md-2 regular-font">Explanation:</div>
+									<div class="item_desc col-md-8" >
+										<input class="form-control" type="text" placeholder="Write the Explanation here" ng-model="Manager.question_obj.explanation">
+									</div>
+								</div>
+								<div class="create_option">
+									<div class="row opt_1" style="margin-top:5px;">
+										<div class="item_desc col-md-1"></div>
+										<div class="item_desc col-md-10">
+											<div class="input-group">
+										    	<span class="input-group-addon">
+										        	<input type="checkbox" placeholder="Option 1" aria-label="..." ng-model="Manager.question_obj.options[0].correct">
+										      	</span>
+										      	<input type="text" class="form-control" placeholder="Option 1" aria-label="option1" ng-model="Manager.question_obj.options[0].option">
+										    </div>
+										</div>
+									</div>
+									<div class="row opt_2" style="margin-top:5px;">
+										<div class="item_desc col-md-1"></div>
+										<div class="item_desc col-md-10">
+											<div class="input-group">
+										    	<span class="input-group-addon">
+										        	<input type="checkbox" placeholder="Option 1" aria-label="..." ng-model="Manager.question_obj.options[1].correct">
+										      	</span>
+										      	<input type="text" class="form-control" placeholder="Option 1" aria-label="option1" ng-model="Manager.question_obj.options[1].option">
+										    </div>
+										</div>
+									</div>
+									<div class="row opt_3" style="margin-top:5px;">
+										<div class="item_desc col-md-1"></div>
+										<div class="item_desc col-md-10">
+											<div class="input-group">
+										    	<span class="input-group-addon">
+										        	<input type="checkbox" placeholder="Option 1" aria-label="..." ng-model="Manager.question_obj.options[2].correct">
+										      	</span>
+										      	<input type="text" class="form-control" placeholder="Option 1" aria-label="option1" ng-model="Manager.question_obj.options[2].option">
+										    </div>
+										</div>
+									</div>
+									<div class="row opt_4" style="margin-top:5px;">
+										<div class="item_desc col-md-1"></div>
+										<div class="item_desc col-md-10">
+											<div class="input-group">
+										    	<span class="input-group-addon">
+										        	<input type="checkbox" placeholder="Option 1" aria-label="..." ng-model="Manager.question_obj.options[3].correct">
+										      	</span>
+										      	<input type="text" class="form-control" placeholder="Option 1" aria-label="option1" ng-model="Manager.question_obj.options[3].option">
+										    </div>
+										</div>
+									</div>
+								</div>
+								<div class="row" style="margin-top:15px;">
+									<div class="item_desc col-md-2"></div>
+									<div class="item_desc col-md-3">
+										<a class="btn btn-primary">Add Image</a>
+									</div>
+									<div class="item_desc col-md-2" style="width:200px;">
+										<a class="btn btn-primary" ng-click="Manager.add_to_queue()">Submit Question</a>
+									</div>
+									<div class="item_desc col-md-3">
+										<a class="btn btn-primary">Add Equation</a>
+									</div>
+									<div class="item_desc col-md-2"></div>
+								</div>
+							</div>
+						</div>
+						<div style="margin-top:40px;">
+							<center>
+							<div>
+								<a class="btn-index" style="padding: 8px 60px;font-size:18px;" ng-click="Manager.update_mode()">Create Test</a>
+							</div></center>
+						</div>
+					</div>
+				</div>
+				<div id="post_test_container" ng-hide= "Manager.mode !==3">
+					<div class="row" id="post_test_head">
+					<div class="col-md-1"></div>
+					<div class="section_head subheading-font">
+						Post Test Information:
+					</div>
+					</div>
+					<div class="row well detail" id="post_test_detail">
+						<!--
+						<div class="row">
+							<div class="item_desc col-md-3 regular-font">Test Description:</div>
+							<div class="item_desc col-md-4">
+								<input class="form-control" type="text" placeholder="Write a short description about the test" ng-model="Manager.post_test.description">
+							</div>
+							<div class="item_desc col-md-2"></div>
+						</div>
+						!-->
+						<div class="row">
+							<div class="item_desc col-md-3 regular-font">Assign Test to a Class:</div>
+
+							<div class="btn-group item_desc col-md-4" dropdown is-open="status.isopen">
+						    	<button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle ng-disabled="disabled">
+						        {%verbatim%}{{selected_class['class_name']}}{%endverbatim%}<span class="caret"></span>
+						      	</button>
+						      	<ul class="dropdown-menu" role="menu">
+						        	<li ng-repeat="item in class_list">
+						        		<a ng-click="Manager.select_class($index)">{%verbatim%}{{item['class_name']}}{%endverbatim%}</a>
+						        	</li>
+						        </ul>
+						    </div>
+						    <div class="item_desc col-md-1">
+						    	<a href="" ng-click="Manager.clear_selection()" class="btn btn-success">Clear Selection</a>
+						    </div>
+							<div class="item_desc col-md-2"></div>
+						</div>
+						<div class="row">
+							<div class="item_desc col-md-3 regular-font">OR Create a New Class</div>
+							<div class="item_desc col-md-4">
+							</div>
+							<div class="item_desc col-md-2"></div>
+						</div>
+						<div class="row">
+							<div class="item_desc col-md-3 regular-font">Enter E-mail IDs of Students:</div>
+							<div class="item_desc col-md-4">
+								<input class="form-control" type="text" placeholder="john@gmail.com, sam@gmail.com etc..." ng-model="Manager.class_email">
+							</div>
+							<div class="item_desc col-md-2"></div>
+						</div>
+						<div class="row">
+							<div class="item_desc col-md-3 regular-font">Enter Class Name:</div>
+							<div class="item_desc col-md-4">
+								<input class="form-control" type="text" placeholder="john@gmail.com, sam@gmail.com etc..." ng-model="Manager.class_name">
+							</div>
+							<div class="item_desc col-md-2">
+								<a class="btn btn-primary" ng-click="Manager.create_class()">Create Class</a>
+							</div>
+						</div>
+						<div class="row" style="margin-top:20px;">
+							<div class="item_desc col-md-4"></div>
+							<div class="item_desc col-md-2" style="width:200px;">
+								<a class="btn btn-primary" ng-click="Manager.submit_test()">Create Test</a>
+							</div>
+							<div class="item_desc col-md-5"></div>
+						</div>
+					</div>
+				</div>
+					</div>
+		</div>
+	</body>
+</html>

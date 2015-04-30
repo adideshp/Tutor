@@ -1,0 +1,154 @@
+.heading_section {
+	background: #ffffff;
+	height: 100%;
+	z-index: 1;
+	overflow-x: hidden;
+	overflow-y: overlay;
+	font-family: 'Raleway', sans-serif;
+  box-shadow: 10px 0px 5px #888888;
+}
+
+
+.tutor_image {
+	background: url('/static/images/class_background.svg'); 
+	background-repeat: no-repeat;
+	z-index: 2;
+	opacity: 1.9;
+	height: 100%;
+}
+
+
+.class_logo {
+	background: url('/static/images/logo_class.png'); 
+	background-repeat: no-repeat;
+	z-index: 10;
+	height: 50%;
+	height: 100px;
+}
+
+.login_section {
+	background: #0C4B33;
+  border-color: #0C4B33;
+	overflow-x: hidden;
+	overflow-y: hidden;
+	height: 100%;
+	z-index: 1;
+	/*background: url('login.svg'); 
+	background-repeat: no-repeat;*/
+	z-index: 2;
+	opacity: 0.7;
+}
+
+.login_box {
+	align-self: center;
+	vertical-align: middle;
+	width: 80%;
+	margin-left: auto;
+  margin-right: auto;
+  background-color:rgba(0, 0, 0, 0.7);
+  border-radius: 5px;
+	line-height: 2em;
+	padding: 15px;
+	width: 270px;
+  box-shadow: 2px 5px 3px 3px #0f0f0f;
+  border-color: rgba(0, 0, 0, 0.7);
+
+}
+
+.btn-push {
+  position: relative;
+  top: 0p
+  font-family: 'Raleway', sans-serif;
+  text-decoration: none;
+  font-size: 15px;
+  background: #B2EBF2;
+  padding: 8px 60px;
+  margin: 0 10px;
+  border: 1px solid #B2EBF2;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-box-shadow: 0px 5px 0px #006064;
+  -moz-box-shadow: 0px 5px 0px #006064;
+  -ms-box-shadow: 0px 5px 0px #006064;
+  -o-box-shadow: 0px 5px 0px #006064;
+  box-shadow: 0px 5px 0px #006064;
+  color: #222;
+  text-shadow: 1px 1px 1px #fff;
+  -webkit-transition: All 250ms ease;
+  -moz-transition: All 250ms ease;
+  -o-transition: All 250ms ease;
+  -ms-transition: All 250ms ease;
+  transition: All 250ms ease;
+}
+/*==========  Active State  ==========*/
+.btn-push:active {
+  position: relative;
+  top: 5px;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  -ms-box-shadow: none !important;
+  -o-box-shadow: none !important;
+  box-shadow: none !important;
+  -webkit-transition: All 250ms ease;
+  -moz-transition: All 250ms ease;
+  -o-transition: All 250ms ease;
+  -ms-transition: All 250ms ease;
+  transition: All 250ms ease;
+}
+
+/*==========  Orange  ==========*/
+.btn-push.orange {
+  background: #f57936;
+  color: #fff;
+  border: 1px solid #bc4809;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-box-shadow: 0px 5px 0px #bc4809;
+  -moz-box-shadow: 0px 5px 0px #bc4809;
+  -ms-box-shadow: 0px 5px 0px #bc4809;
+  -o-box-shadow: 0px 5px 0px #bc4809;
+  box-shadow: 0px 5px 0px #bc4809;
+  text-shadow: 1px 1px 1px #bc4809;
+}
+
+.welcome_msg {
+	font-family: 'Raleway', sans-serif;
+	margin-left: 55px;
+	font-size: 15px;
+	color : #fff;
+}
+
+.head_panel {
+	font-family: 'Raleway', sans-serif;
+	font-size: 30px;
+	color: #000;
+	opacity: 0.8;
+}
+
+.heading-font {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 400;
+  font-size: 20px;
+  color: #fff;
+}
+
+.subheading-font {
+  font-family: 'Raleway', sans-serif;
+  font-size: 20px;
+  color : #0C4B33;
+}
+
+.regular-font {
+  font-family: 'Raleway', sans-serif;
+  font-size: 14px;
+  color : #0C4B33; 
+}
+
+.links-font {
+  font-family: 'Raleway', sans-serif;
+  font-size: 14px;
+  color : #44B78B;
+  font-weight: 700;
+}

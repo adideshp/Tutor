@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html ng-app="Test">
+	<head>
+		<script src="angular.js"></script>
+    	<script src="ui-bootstrap-tpls-0.12.0.js"></script>
+        <link href="bootstrap.min.css" rel="stylesheet">
+        <link href="base.css" rel="stylesheet">
+        <link href="animate.css" rel="stylesheet">
+		<script type="text/javascript" src="app.js"></script>
+		<link href='http://fonts.googleapis.com/css?family=Bree+Serif' rel='stylesheet' type='text/css'>
+	</head>
+	<body ng-controller="Queue_Manager as Manager" style="width:100%;height:640px;" class="background_image">
+		<nav class="navbar navbar-inverse blue_bar">
+		    <div class="navbar-header" style="width:100%;">
+		    	<div class="row">
+		    		<div class="col-md-2">
+					    <a class="navbar-brand" href="#">
+					        <strong>Tutor Platform</strong>
+					    </a>
+					</div>
+					<div class="col-md-8"></div>
+					<div class="col-md-2" ng-hide = "pri_ctr.page_num === 1">
+					</div>
+				</div>	
+		    </div>
+		</nav>
+		<div class="row" style="height:100%">
+			<div class="col-md-3 login_section">
+				<div class="row">
+					<div style="width:100%;height:50px;" class="col-md-12 menu_item">
+						<div class="menu_text_content"><strong>Class Level Information</strong></div>
+					</div>
+				</div>
+				<div class="row">
+					<div style="width:100%;height:50px;" class="col-md-12 menu_item">
+						<div class="menu_text_content"><strong>Test Level Information</strong></div>
+					</div>
+				</div>
+				<div class="row">
+					<div style="width:100%;height:50px;" class="col-md-12 menu_item">
+						<div class="menu_text_content"><strong>Notifications</strong></div>
+					</div>
+				</div>
+				<div class="row">
+					<div style="width:100%;height:50px;" class="col-md-12 menu_item">
+						<div class="menu_text_content"><strong>Profile Settings</strong></div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-9 heading_section">
+				<div class="row detail">
+					<div class="row">
+						<div class="col-md-9"
+						<center><div>Class Name</div></center>
+					</div>
+					<div class="row">
+						<div class="col-md-8">
+							<div class="row">
+								<div class="col-md-2">Subject :</div>
+							</div>
+							<div class="row">
+								<div class="col-md-2">Professor :</div>
+							</div>
+							<div class="row">
+								<div class="col-md-2">Level :</div>
+							</div>
+						</div>
+						<div class="col-md-4">
+							
+						</div>
+						<div class="row">
+						</div>
+						<div class="row">
+						</div>
+					</div>
+					<div class="row">
+					</div>
+
+			</div>	
+		</div>
+	</body>
+</html>

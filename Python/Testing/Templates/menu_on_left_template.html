@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html ng-app="Tutor">
+	<head>
+		<script src="angular.js"></script>
+		<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script> 
+		<script src="c3/c3.js"></script> 
+		<link href="c3/c3.css" rel="stylesheet" type="text/css">
+		<script src="gauge_chart.js"></script>
+    	<script src="ui-bootstrap-tpls-0.12.0.js"></script>
+        <link href="bootstrap.min.css" rel="stylesheet">
+        <link href="base.css" rel="stylesheet">
+        <script type="text/javascript" src="questions.js"></script>
+		<script type="text/javascript" src="app.js"></script>
+		<link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+	</head>
+	<body ng-controller="Data_Manager as Manager" class="class_img" style="width:100%;height:640px;padding-top: 53px;">
+		<nav class="navbar navbar-default navbar-fixed-top">
+			<div class="navbar-header" style="width:100%;">
+				<nav class="container">
+			    	<div class="row">
+			    		<div class="col-md-2">
+						    <a class="navbar-brand" href="#">
+						        <strong>Tutor Platform</strong>
+						    </a>
+						</div>
+						<div class="col-md-8"></div>
+						<div class="col-md-2" ng-hide = "pri_ctr.page_num === 1">
+						</div>
+					</div>	
+			    </div>
+			</nav>
+		</nav>
+		<div class="row" style="height:100%">
+			<div class="col-md-3 login_section">
+				<div ng-repeat="menu_item in Manager.flow_state[Manager.current_flow_state]">
+					<div class="row">
+						<div style="width:100%;height:50px;" class="col-md-12 menu_item">
+							<a ng-click="Manager.update_state(menu_item)" href="#{{menu_item}}">
+								<div class="menu_text_content" ng-model="Manager.current_flow_state"><strong>{{menu_item}}</strong></div>
+							</a>
+						</div>
+					</div>
+				</div>
+				<div ng-repeat= "question in Manager.question_queue" ng-show="Manager.flow_state['Create Test']">
+					<div class="row">
+						<div style="width:100%;height:50px;" class="col-md-12 menu_item">
+							<div class="menu_text_content"><strong><a href="#question_{{$index + 1}}">Question No. {{$index + 1}}</a></strong></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-9 heading_section" style="height:600px; box-shadow: -7px 0px 3px 0px #0f0f0f;">
+				<div style="margin-top: 10px; margin-left: -10px;">
+					<ol class="breadcrumb"> 
+						<strong>You are Here : </strong><li ng-repeat="state in Manager.reverse_flow_state[Manager.current_flow_state]"><a href="#" ng-click="Manager.update_state(state)">{{state}}</a></li>
+						<li class="active">{{Manager.current_flow_state}}</li>
+					</ol>
+				</div>
+				<div class="header_section_container" style="height:100%;">
+					<div class="" style="height:100%;" ng-hide="Manager.current_flow_state != 'Home'"></div>
+					<div class="class_page" style="height:100%;" ng-hide="Manager.current_flow_state != 'Class View'">
+						<div class="row" style="height:200px;">
+							<div class="col-md-1"></div>
+							<div class="col-md-2 class_sel"></div>
+							<div class="col-md-1"></div>
+							<div class="col-md-2 class_sel"></div>
+							<div class="col-md-1"></div>
+							<div class="col-md-2 new_class"></div>
+							<div class="col-md-1"></div>
+							<div class="col-md-2"></div>
+						</div>
+						<div class="row" style="margin-top:5px;">
+							<div class="col-md-1"></div>
+							<div class="col-md-2 class_info"><center>Physics</center></div>
+							<div class="col-md-1"></div>
+							<div class="col-md-2 class_info"><center>Calculus</center></div>
+							<div class="col-md-1"></div>
+						</div>
+						<div class="row" style="margin-top:20px;height:30px;">
+							<div class="col-md-1"></div>
+							<div class="col-md-2 class_info"><center><a href="no_menu.html" class="btn-push orange">Go to Class</a></center></div>
+							<div class="col-md-1"></div>
+							<div class="col-md-2 class_info"><center><a href="no_menu.html" class="btn-push orange">Go to Class</a></center></div>
+							<div class="col-md-1"></div>
+							<div class="col-md-2 class_info"><center><a href="javascript:return false;" class="btn-push orange">Add new Class</a></center></div>
+						</div>
+					</div>
+					<div class="test_page" style="height:100%;" ng-hide="Manager.current_flow_state != 'Test View'">
+						<div class="row" style="height:200px;">
+							<div class="col-md-1"></div>
+							<div class="col-md-2 class_sel"></div>
+							<div class="col-md-1"></div>
+							<div class="col-md-2 class_sel"></div>
+							<div class="col-md-1"></div>
+							<div class="col-md-2 class_sel"></div>
+							<div class="col-md-1"></div>
+						</div>
+						<div class="row" style="margin-top:-40px;">
+							<div class="col-md-1"></div>
+							<div class="col-md-2 class_info"><center>Measurements Test</center></div>
+							<div class="col-md-1"></div>
+							<div class="col-md-2 class_info"><center>Calculus Test</center></div>
+							<div class="col-md-1"></div>
+							<div class="col-md-2 class_info"><center></center></div>
+						</div>
+						<div class="row" style="margin-top:20px;height:30px;">
+							<div class="col-md-1"></div>
+							<div class="col-md-2 class_info"><center><a href="javascript:return false;" class="btn-push orange">Go to Test</a></center></div>
+							<div class="col-md-1"></div>
+							<div class="col-md-2 class_info"><center><a href="javascript:return false;" class="btn-push orange">Go to Test</a></center></div>
+							<div class="col-md-1"></div>
+							<div class="col-md-2 class_info"><center><a href="javascript:return false;" class="btn-push orange" ng-click="Manager.update_state('Create Test')">Create Test</a></center></div>
+						</div>
+					</div>
+					<div class="create_a_test_section" ng-hide="Manager.current_flow_state != 'Create Test'">
+						<div class="row" style="width:100%;height:50px;">
+							<center><div class="sub_head">
+								Create a Test
+							</div></center>
+						</div>
+						<div id="pre_test_container" ng-show="Manager.MODE['PRE_TEST_CREATE'] === Manager.Mode">
+							<div class="row" id="pre_test_head">
+								<div class="col-md-1"></div>
+								<div class="section_head">
+									Basic Information:
+								</div>
+							</div>
+							<div class="row well detail" id="pre_test_detail">
+								<div class="row">
+									<div class="item_desc col-md-3">Test Name:</div>
+									<div class="item_desc col-md-4">
+										<input class="form-control" type="text" placeholder="JEE Physics Paper 1">
+									</div>
+									<div class="item_desc col-md-2"></div>
+								</div>
+								<div class="row">
+									<div class="item_desc col-md-3">Subject:</div>
+									<div class="item_desc col-md-4">
+										<input class="form-control" type="text" placeholder="Physics">
+									</div>
+									<div class="item_desc col-md-2"></div>
+								</div>
+								<div class="row">
+									<div class="item_desc col-md-3">Target Exam:</div>
+									<div class="item_desc col-md-4">
+										<input class="form-control" type="text" placeholder="IIT JEE">
+									</div>
+									<div class="item_desc col-md-2"></div>
+								</div>
+								<div class="row">
+									<div class="item_desc col-md-3">Topics Included:</div>
+									<div class="item_desc col-md-4">
+										<input class="form-control" type="text" placeholder="Electromagnetism, Angular Motion">
+									</div>
+									<div class="item_desc col-md-2"></div>
+								</div>
+								<div class="row">
+									<div class="item_desc col-md-3">Difficulty Level:</div>
+									<div class="item_desc col-md-2">
+										<input class="form-control" type="text" placeholder="Hard">
+									</div>
+									<div class="item_desc col-md-2"></div>
+								</div>
+								<div class="row">
+									<div class="item_desc col-md-3">Total Time:</div>
+									<div class="item_desc col-md-2">
+										<input class="form-control" type="text" placeholder="100">
+									</div>
+									<div class="item_desc col-md-2"></div>
+								</div>
+								<div class="row">
+									<div class="item_desc col-md-3">Total Marks:</div>
+									<div class="item_desc col-md-2">
+										<input class="form-control" type="text" placeholder="150">
+									</div>
+									<div class="item_desc col-md-2"></div>
+								</div>
+								<div class="row">
+									<div class="item_desc col-md-3">Passing Marks:</div>
+									<div class="item_desc col-md-2">
+										<input class="form-control" type="text" placeholder="40">
+									</div>
+									<div class="item_desc col-md-2"></div>
+								</div>
+								<div class="row" style="margin-top:20px;">
+									<div class="item_desc col-md-3"></div>
+									<div class="item_desc col-md-6">
+										<a class="btn-push orange" ng-click="Manager.update_mode()">Start Creating Questions</a>
+									</div>
+									<div class="item_desc col-md-3"></div>
+								</div>
+							</div>
+						</div>
+						<div id="question_template" ng-show="Manager.MODE['QUESTIONS_CREATE'] === Manager.Mode">
+							<div class="row" id="question_head">
+								<div class="col-md-1"></div>
+								<div class="section_head">
+									Start Creating Questions:
+								</div>
+							</div>
+							<div class="row" id="questions_container">
+								<div id="question_body">
+									<div ng-repeat = "question in Manager.question_queue">	
+										<div id="question_{{$index + 1}}" class="well detail" ng-model="question.id">
+											<div class="row" id="question_{{$index + 1}}_body">
+												<div class="item_desc col-md-1">Q.{{$index+1}}</div>
+												<div class="item_desc col-md-10">
+													<input class="form-control" type="text" placeholder="Write the Question here" ng-model="question.question">
+												</div>
+											</div>
+											<div class="row" style="margin-top:20px;">
+												<div class="item_desc col-md-1"></div>
+												<div class="item_desc col-md-2">Question Type:</div>
+												<div class="btn-group" role="group">
+													<button type="button" class="btn btn-default">Multiple Chioce Question</button>
+													<button type="button" class="btn btn-default">Text Based Question</button>
+												</div>
+											</div>
+											<div class="row" style="margin-top:20px;">
+												<div class="item_desc col-md-1"></div>
+												<div class="item_desc col-md-2">Points:</div>
+												<div class="item_desc col-md-3">
+													<input class="form-control" type="text" placeholder="Points" ng-model="question.points">
+												</div>
+												<div class="item_desc col-md-1">Section:</div>
+												<div class="item_desc col-md-1"></div>
+												<div class="item_desc col-md-3" >
+													<input class="form-control" type="text" placeholder="Points" ng-model="question.section">
+												</div>
+											</div>
+											<div class="row" style="margin-top:20px;">
+												<div class="item_desc col-md-1"></div>
+												<div class="item_desc col-md-2">Difficulty Level:</div>
+												<div class="item_desc col-md-3">
+													<input class="form-control" type="text" placeholder="Points" ng-model="question.difficulty_level">
+												</div>
+												<div class="item_desc col-md-1">Negative Points:</div>
+												<div class="item_desc col-md-1"></div>
+												<div class="item_desc col-md-3" >
+													<input class="form-control" type="text" placeholder="Points" ng-model="question.negetive_points">
+												</div>
+											</div>
+											<div class="row" style="margin-top:20px;">
+												<div class="item_desc col-md-1"></div>
+												<div class="item_desc col-md-2">Hint:</div>
+												<div class="item_desc col-md-8" >
+													<input class="form-control" type="text" placeholder="Hint" ng-model="question.hint">
+												</div>
+											</div>
+											<div class="row" style="margin-top:20px;">
+												<div class="item_desc col-md-1"></div>
+												<div class="item_desc col-md-2">Explanation:</div>
+												<div class="item_desc col-md-8" >
+													<input class="form-control" type="text" placeholder="Write the Explanation here" ng-model="question.explanation">
+												</div>
+											</div>
+											<div class="create_option">
+												<div class="row" style="margin-top:5px;" ng-repeat="option in question.options">
+													<div class="item_desc col-md-1"></div>
+													<div class="item_desc col-md-10">
+													<div class="input-group">
+												    	<span class="input-group-addon">
+												        	<input type="checkbox" placeholder="Option 1" aria-label="..." ng-model="Manager.question.correct[$index]">
+												      	</span>
+												      	<input type="text" class="form-control" placeholder="Option 1" aria-label="option1" ng-model="Manager.question.options[$index]">
+												    </div>
+													</div>
+												</div>
+											</div>	
+											
+										</div>
+									</div>
+								</div>
+								<div id="question_body" class="well detail">	
+									<div id="question_current" ng-model="Manager.current_question.id">
+										<div class="row" id="question_{{$index + 1}}_body">
+											<div class="item_desc col-md-1">Q.{{Manager.question_no}}</div>
+											<div class="item_desc col-md-10">
+												<input class="form-control" type="text" placeholder="Write the Question here" ng-model="Manager.current_question.question">
+											</div>
+										</div>
+										<div class="row" style="margin-top:20px;">
+											<div class="item_desc col-md-1"></div>
+											<div class="item_desc col-md-2">Question Type:</div>
+											<div class="btn-group" role="group">
+												<button type="button" class="btn btn-default">Multiple Chioce Question</button>
+												<button type="button" class="btn btn-default">Text Based Question</button>
+											</div>
+										</div>
+										<div class="row" style="margin-top:20px;">
+											<div class="item_desc col-md-1"></div>
+											<div class="item_desc col-md-2">Points:</div>
+											<div class="item_desc col-md-3">
+												<input class="form-control" type="text" placeholder="Points" ng-model="Manager.current_question.points">
+											</div>
+											<div class="item_desc col-md-1">Section:</div>
+											<div class="item_desc col-md-1"></div>
+											<div class="item_desc col-md-3" >
+												<input class="form-control" type="text" placeholder="Points" ng-model="Manager.current_question.section">
+											</div>
+										</div>
+										<div class="row" style="margin-top:20px;">
+											<div class="item_desc col-md-1"></div>
+											<div class="item_desc col-md-2">Difficulty Level:</div>
+											<div class="item_desc col-md-3">
+												<input class="form-control" type="text" placeholder="Points" ng-model="Manager.current_question.difficulty_level">
+											</div>
+											<div class="item_desc col-md-1">Negative Points:</div>
+											<div class="item_desc col-md-1"></div>
+											<div class="item_desc col-md-3" >
+												<input class="form-control" type="text" placeholder="Points" ng-model="Manager.current_question.negetive_points">
+											</div>
+										</div>
+										<div class="row" style="margin-top:20px;">
+											<div class="item_desc col-md-1"></div>
+											<div class="item_desc col-md-2">Hint:</div>
+											<div class="item_desc col-md-8" >
+												<input class="form-control" type="text" placeholder="Hint" ng-model="Manager.current_question.hint">
+											</div>
+										</div>
+										<div class="row" style="margin-top:20px;">
+											<div class="item_desc col-md-1"></div>
+											<div class="item_desc col-md-2">Explanation:</div>
+											<div class="item_desc col-md-8" >
+												<input class="form-control" type="text" placeholder="Write the Explanation here" ng-model="Manager.current_question.explanation">
+											</div>
+										</div>
+										<div class="create_option">
+											<div class="row" style="margin-top:5px;" ng-repeat="option in Manager.current_question.options">
+												<div class="item_desc col-md-1"></div>
+												<div class="item_desc col-md-10">
+												<div class="input-group">
+											    	<span class="input-group-addon">
+											        	<input type="checkbox" placeholder="Option 1" aria-label="..." ng-model="Manager.current_question.correct[$index]">
+											      	</span>
+											      	<input type="text" class="form-control" placeholder="Option 1" aria-label="option1" ng-model="Manager.current_question.options[$index]">
+											    </div>
+												</div>
+											</div>
+										</div>
+										<div class="row" style="margin-top:15px;">
+											<div class="item_desc col-md-2"></div>
+											<div class="item_desc col-md-3">
+												<a class="btn-push orange">Add Image</a>
+											</div>
+											<div class="item_desc col-md-2" style="width:200px;">
+												<a class="btn-push submit" ng-click="Manager.add_to_queue()">Submit Question</a>
+											</div>
+											<div class="item_desc col-md-3">
+												<a class="btn-push orange">Add Equation</a>
+											</div>
+											<div class="item_desc col-md-2"></div>
+										</div>
+									</div>
+								</div>
+								<div style="margin-top:40px;">
+									<center>
+									<div>
+										<a class="btn-push submit" style="padding: 8px 60px;font-size:18px;" ng-click="Manager.update_mode()">Create Test</a>
+									</div></center>
+								</div>
+							</div>
+						</div>
+						<div id="post_test_container" ng-show="Manager.MODE['POST_TEST_CREATE'] === Manager.Mode" >
+							<div class="row" id="post_test_head">
+							<div class="col-md-1"></div>
+							<div class="section_head">
+								Post Test Information:
+							</div>
+							</div>
+							<div class="row well detail" id="post_test_detail">
+							<div class="row">
+								<div class="item_desc col-md-3">Test Description:</div>
+								<div class="item_desc col-md-4">
+									<input class="form-control" type="text" placeholder="Write a short description about the test">
+								</div>
+								<div class="item_desc col-md-2"></div>
+							</div>
+							<div class="row">
+								<div class="item_desc col-md-3">Assign Test to a Class:</div>
+								<div class="item_desc col-md-4">
+									<input class="form-control" type="text" placeholder="Enter Class(es)">
+								</div>
+								<div class="item_desc col-md-2"></div>
+							</div>
+							<div class="row">
+								<div class="item_desc col-md-3">OR</div>
+								<div class="item_desc col-md-4">
+								</div>
+								<div class="item_desc col-md-2"></div>
+							</div>
+							<div class="row">
+								<div class="item_desc col-md-3">Enter E-mail IDs of Students to notify:</div>
+								<div class="item_desc col-md-4">
+									<input class="form-control" type="text" placeholder="john@gmail.com, sam@gmail.com etc...">
+								</div>
+								<div class="item_desc col-md-2"></div>
+							</div>
+							<div class="row" style="margin-top:20px;">
+								<div class="item_desc col-md-4"></div>
+								<div class="item_desc col-md-2" style="width:200px;">
+									<a class="btn-push orange" ng-click="Manager.result()">Create Test</a>
+								</div>
+								<div class="item_desc col-md-5"></div>
+							</div>
+							</div>
+						</div>
+					</div>
+					<div class="profile_page" ng-hide="Manager.current_flow_state != 'Profile'" style="height:100%;">
+						<strong>Basic Information:</strong>
+						<div class="row" style="height:40%; margin-top:50px;">
+							<div class="col-md-4" style="height:100%;">
+								<div class="avatar"></div>
+							</div>
+							<div class="col-md-8">
+								<div class="row" style="height:100%;margin-top:50px;">
+									<div class="col-md-4">Name:</div>
+									<div class="col-md-8">Aditya Deshpande</div>
+								</div>
+								<div class="row" style="height:100%;margin-top:10px;">
+									<div class="col-md-4">Age:</div>
+									<div class="col-md-8">25</div>
+								</div>
+								<div class="row" style="height:100%;margin-top:10px;">
+									<div class="col-md-4">E-mail :</div>
+									<div class="col-md-8">desh.adi05@gmail.com</div>
+								</div>
+								<div class="row" style="height:100%;margin-top:10px;">
+									<div class="col-md-4">Points :</div>
+									<div class="col-md-8">10,234</div>
+								</div>
+							</div>
+						</div>
+						<div style="margin-top:50px;"><strong>Dashboard:</strong></div>
+						<div class="row" style="height:40%; margin-top:50px;">
+							<!-- Graphs will be here!-->
+							<div class="row">
+								<div class="col-md-5">
+									<div id="chart" style="height:100%;margin-left: 55px;"></div>
+								</div> 
+								<div class="col-md-2"></div>
+								<div class="col-md-2 rank">08</div>
+								<div class="col-md-3"></div>
+							</div>
+							<div class="row">
+								<div class="col-md-3">
+									<div style="margin-left: 189px;">Accuracy</div>
+								</div> 
+								<div class="col-md-4"></div>
+								<div class="col-md-2" style="margin-left: 125px;">Overall Rank</div>
+								<div class="col-md-3"></div>
+							</div>
+							
+						</div>
+						<div style="margin-top:50px;"><strong>Notification:</strong></div>
+						<div class="row" style="height:40%; margin-top:50px;">
+							<div class="col-md-1"></div>
+							<div class="panel panel-default col-md-10">
+								  <!-- Default panel contents -->
+								<div class="panel-heading">Notification Panel</div>
+								  <!-- List group -->
+								<ul class="list-group">
+									<li class="list-group-item">Physics Results available</li>
+								    <li class="list-group-item">Your position in Leaderboard</li>
+								    <li class="list-group-item">New Test Available in Physics Class</li>
+								</ul>
+							</div>
+						</div>
+						<div style="margin-top:50px;"><strong>Classes Associated:</strong></div>
+						<div class="row" style="height:40%; margin-top:50px;">
+							<div class="row" style="height:200px;">
+								<div class="col-md-1"></div>
+								<div class="col-md-2 class_sel"></div>
+								<div class="col-md-1"></div>
+								<div class="col-md-2 class_sel"></div>
+								<div class="col-md-1"></div>
+								<div class="col-md-2 new_class"></div>
+								<div class="col-md-1"></div>
+								<div class="col-md-2"></div>
+							</div>
+							<div class="row" style="margin-top:5px;">
+								<div class="col-md-1"></div>
+								<div class="col-md-2 class_info"><center>Physics</center></div>
+								<div class="col-md-1"></div>
+								<div class="col-md-2 class_info"><center>Calculus</center></div>
+								<div class="col-md-1"></div>
+							</div>
+							<div class="row" style="margin-top:20px;height:30px;">
+								<div class="col-md-1"></div>
+								<div class="col-md-2 class_info"><center><a href="attempt_view.html" class="btn-push orange">Go to Class</a></center></div>
+								<div class="col-md-1"></div>
+								<div class="col-md-2 class_info"><center><a href="no_menu.html" class="btn-push orange">Go to Class</a></center></div>
+								<div class="col-md-1"></div>
+								<div class="col-md-2 class_info"><center><a href="javascript:return false;" class="btn-push orange">Add new Class</a></center></div>
+							</div>
+						</div>
+						<div style="margin-top:100px;"><strong>Tests Given:</strong></div>
+						<div class="row" style="height:40%; margin-top:50px;">
+							<div class="row" style="height:200px;">
+							<div class="col-md-1"></div>
+							<div class="col-md-2 class_sel"></div>
+							<div class="col-md-1"></div>
+							<div class="col-md-2 class_sel"></div>
+							<div class="col-md-1"></div>
+							<div class="col-md-2 class_sel"></div>
+							<div class="col-md-1"></div>
+						</div>
+						<div class="row" style="margin-top:0px;">
+							<div class="col-md-1"></div>
+							<div class="col-md-2 class_info"><center>Measurements Test</center></div>
+							<div class="col-md-1"></div>
+							<div class="col-md-2 class_info"><center>Calculus Test</center></div>
+							<div class="col-md-1"></div>
+							<div class="col-md-2 class_info"><center></center></div>
+						</div>
+						<div class="row" style="margin-top:20px;height:30px;">
+							<div class="col-md-1"></div>
+							<div class="col-md-2 class_info"><center><a href="javascript:return false;" class="btn-push orange">Go to Test</a></center></div>
+							<div class="col-md-1"></div>
+							<div class="col-md-2 class_info"><center><a href="javascript:return false;" class="btn-push orange">Go to Test</a></center></div>
+							<div class="col-md-1"></div>
+							<div class="col-md-2 class_info"><center><a href="javascript:return false;" class="btn-push orange" ng-click="Manager.update_state('Create Test')">Create Test</a></center></div>
+						</div>
+						</div>
+					</div>
+				</div>
+				
+			</div>	
+		</div>
+	</body>
+</html>

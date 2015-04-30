@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html ng-app="Test">
+	<head>
+		<script src="angular.js"></script>
+    	<script src="ui-bootstrap-tpls-0.12.0.js"></script>
+        <link href="bootstrap.min.css" rel="stylesheet">
+        <link href="base.css" rel="stylesheet">
+        <link href="animate.css" rel="stylesheet">
+		<script type="text/javascript" src="app.js"></script>
+		<link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+	</head>
+	<body ng-controller="Queue_Manager as Manager" style="width:100%;height:640px;background: #f2ffff;" class="background_image">
+		<nav class="navbar navbar-default">
+		    <div class="navbar-header" style="width:100%;box-shadow: 0px 4px 5px #888888;">
+		    	<div class="row">
+		    		<div class="col-md-2">
+					    <a class="navbar-brand" href="#">
+					        <strong>Tutor Platform</strong>
+					    </a>
+					</div>
+					<div class="col-md-8"></div>
+					<div class="col-md-2" ng-hide = "pri_ctr.page_num === 1">
+					</div>
+				</div>	
+		    </div>
+		</nav>
+		<div class="row">
+			<div class="col-md-12 head_panel" style="width:100%;height:40px;">
+				<div class="head_content"><center>Class Name</center></div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12 sub_head_panel" style="width:100%;height:25px;">
+				<div class="sub_head_content">
+					<div class="row">
+						<div class="col-md-4">Instructor:</div>
+						<div class="col-md-6"></div>
+						<div class="col-md-2">Subject:</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="no_menu" style="margin-top:200px;">
+			<div class="row">
+				<div style="margin-top:-150px;">
+					<div class="col-md-12 announcement_panel" style="margin-top:-30px;">
+					<center>Announcements</center>
+					</div>
+					<div class="announcement_box" style="height:150px;width:80%">
+						<div class="row" style="margin-top:20px;margin-left:20px;">
+							<div class="col-md-12">1. New Physics Test should be solved before 10 April</div>
+						</div>
+						<div class="row" style="margin-top:10px;margin-left:20px;">
+							<div class="col-md-12">2. Chemistry Test Results Available</div>
+						</div>
+						<div class="row" style="margin-top:10px;margin-left:20px;">
+							<div class="col-md-12">3. Measurements tests postponed</div>
+						</div>
+					</div>
+				</div>
+			</div>	
+			<div class="row" style="margin-top:50px;">
+				<div class="col-md-1"></div>
+				<div class="col-md-4 announcement_box" style="height:250px;">
+					<div class="row">
+						<div class="col-md-12"><center><strong>Pending Tests</strong></center></div>
+					</div>
+				</div>
+				<div class="col-md-1"></div>
+				<div class="col-md-5 announcement_box" style="height:450px;">
+					<div class="row">
+						<div class="col-md-12"><center><strong>Leaderboard</strong></center></div>
+					</div>
+				</div>
+				<div class="col-md-1"></div>
+			</div>
+
+		</div>
+	</body>
+</html>

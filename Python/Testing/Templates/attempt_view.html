@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html ng-app="Tutor">
+	<head>
+		<script src="/static/libraries/angular.js"></script>
+    	<script src="/static/libraries/ui-bootstrap-tpls-0.12.0.js"></script>
+        <link href="/static/libraries/bootstrap.min.css" rel="stylesheet">
+        <script type="text/javascript" src="/static/js/questions.js"></script>
+		<script type="text/javascript" src="/static/js/app.js"></script>
+		<link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+		<link href="/static/css/attempt_view.css" rel="stylesheet">
+	</head>
+	<body ng-controller="Test_Manager as Manager" style="height:640px;padding-top: 64px;">
+		<nav class="navbar navbar-default navbar-fixed-top">
+			<div class="navbar-header">
+				<nav class="container">
+			    	<div class="row">
+			    		<div class="col-md-2">
+						    <a class="navbar-brand" style="margin-top: 10px;" href="#">
+						        <strong>Tutor Platform</strong>
+						    </a>
+						</div>
+						<div class="col-md-9"></div>
+						<div class="col-md-1" style="margin-top:20px;">
+							<a class="btn btn-default" ng-click = "Manager.logout_user()">Logout</a>
+						</div>
+					</div>	
+			    </div>
+			</nav>
+		</nav>
+		<div class="sub-bar heading-font">
+			<div class="row">
+				<div class="col-md-1"></div>
+				<div class="col-md-6">
+					<div style="margin-top:18px;">
+						{%verbatim%}{{test_name}}{%endverbatim%}
+					</div>
+				</div>
+				<div class="regular-font col-md-4" style="margin-top:25px;">
+					Remaining Time : <STRONG>{%verbatim%}{{hours}}{%endverbatim%} Hours, {%verbatim%}{{minutes}}{%endverbatim%} Minutes, {%verbatim%}{{seconds}}{%endverbatim%} Seconds</STRONG>
+				</div>
+				<div class="regular-font col-md-1" style="margin-top:15px;margin-left:-10px;">
+					<a href="#" class="btn btn-primary" ng-click = "Manager.get_results()">Submit Test</a>
+				</div>
+			</div>
+		</div>
+		<div class="row" style="height:100%">
+				<div class="col-md-3 login_section" style="height:100%;">
+					<div class="row" style="margin-top:50px;margin-left:10px;overflow-y:auto;height:100%;">
+						<div class="col-md-12">
+							<div ng-model = "question.class" class = "btn de_select" ng-repeat="(id, question) in questions_list" ng-class="question.class" ng-click="Manager.set_id($index+1)" style="margin-top: 10px;margin-left:10px;"><a>{% verbatim %}{{$index + 1}}{% endverbatim %}</a></div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-9 heading_section" style="height:100%;box-shadow: -10px -1px 5px #888888;">
+					<div id= "q_{% verbatim %}{{id}}{% endverbatim %}" class="q_container" ng-repeat="(id, question) in questions_list" ng-hide= "current_question_id !== {% verbatim %} {{$index+1}}{% endverbatim %}">
+						<div class="row detail" style="margin-top:50px;margin-left:5px;">
+							<div class="col-md-9 regular-font"><strong>Q. {% verbatim %}{{$index+1}} : {{question.question}}{% endverbatim %}
+							</strong></div>
+							<div class="col-md-3">
+								 <a href="#" class="btn mark" ng-click = "Manager.mark_question(id)">Mark for review</a>
+							</div>
+						</div>
+						<div class="row" style="height:250px;margin-top:25px;">
+							<div class="col-md-5 detail" style="height:300px;">
+								<div class="row" style="margin-top:5px;" ng-repeat="option in question.options">
+									<div class="col-md-1">
+										<input type="checkbox" placeholder="Option {% verbatim %}{{$index+1}}{% endverbatim %}" aria-label="..." ng-model="option.correct">
+									</div>
+									<div class="col-md-1"></div>
+									<div class="col-md-8 regular-font">{% verbatim %}{{option.option}}{% endverbatim %}</div>	
+								</div>
+							</div>
+							<div class="col-md-2"></div>
+							<div class="col-md-4 detail" style="height:300px;"></div>
+							<div class="col-md-1"></div>
+						</div>
+					</div>
+					<div>
+						<div class="row" style="margin-top:-10px;">
+							<div class="col-md-3"></div> 
+							<div class="col-md-8">
+								<a href="#" class="btn btn-primary" ng-click = "Manager.previous()">Previous</a>
+								<a href="#" ng-click = "Manager.next()" class="btn btn-primary">Next</a>
+							</div>
+							<div class="col-md-1"></div>
+						</div>
+					</div>
+					<div>
+						<div class="row" style="margin-top:-10px;">
+						</div>
+					</div>
+				</div>	
+			</div>
+	</body>
+</html>

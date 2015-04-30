@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html ng-app="Tutor">
+	<head>
+		<script src="/static/libraries/angular.js"></script>
+    	<script src="/static/libraries/ui-bootstrap-tpls-0.12.0.js"></script>
+        <link href="/static/libraries/bootstrap.min.css" rel="stylesheet">
+        <link href="/static/css/attempt_view.css" rel="stylesheet">
+        <link href="/static/css/animate.css" rel="stylesheet">
+		<script type="text/javascript" src="/static/js/app.js"></script>
+		<link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+	</head>
+	<body ng-controller="Test_Preload_Manager as Manager" style="width:100%;height:640px;padding-top: 64px;" class="background_image">
+		<nav class="navbar navbar-default navbar-fixed-top">
+			<div class="navbar-header">
+				<nav class="container">
+			    	<div class="row">
+			    		<div class="col-md-2">
+						    <a class="navbar-brand" style="margin-top: 20px;" href="#">
+						        <strong>Tutor Platform</strong>
+						    </a>
+						</div>
+						<div class="col-md-9"></div>
+						<div class="col-md-1" style="margin-top:10px;">
+							<a href="" class="btn btn-default" ng-click = "Manager.logout()">Logout</a>
+						</div>
+					</div>	
+			    </div>
+			</nav>
+		</nav>
+		<div class="sub-bar regular-font">
+			<div class="col-md-12 sub_head_panel" style="width:100%;height:25px;">
+				<div class="sub_head_content">
+					<div class="row" style="margin-top:30px;">
+						<div class="col-md-4">Instructor:</div>
+						<div class="col-md-6"></div>
+						<div class="col-md-2">Subject:</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="test_welcome_container">
+			<div class="test_img" style="margin-top:200px;">
+				<div class="row">
+					<div style="margin-top:-150px;">
+						<div class="col-md-12 announcement_panel subheading-font" style="margin-top:-30px;">
+						<center>Instructions</center>
+						</div>
+						<div class="announcement_box" style="height:150px;width:80%">
+							<div class="row" style="margin-top:20px;margin-left:20px;">
+								<div class="col-md-12">1. New Physics Test should be solved before 10 April</div>
+							</div>
+							<div class="row" style="margin-top:10px;margin-left:20px;">
+								<div class="col-md-12">2. Chemistry Test Results Available</div>
+							</div>
+							<div class="row" style="margin-top:10px;margin-left:20px;">
+								<div class="col-md-12">3. Measurements tests postponed</div>
+							</div>
+						</div>
+					</div>
+				</div>	
+				<div class="row" style="margin-top:50px;">
+					<div class="col-md-12">
+					<center><a href="solve" class="btn-index" style="padding: 8px 60px;font-size:18px;" id= "start_test_button">Start Test</a></center>
+					</div>
+				</div>solve
+			</div>
+		</div>
+	</body>
+</html>

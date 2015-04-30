@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html ng-app="Tutor">
+	<head>
+		<script src="/static/libraries/angular.js"></script>
+		<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script> 
+		<script src="/static/libraries/c3/c3.js"></script> 
+		<link href="/static/libraries/c3/c3.css" rel="stylesheet" type="text/css">
+		<script src="/static/js/gauge_chart.js"></script>
+    	<script src="/static/libraries/ui-bootstrap-tpls-0.12.0.js"></script>
+        <link href="/static/libraries/bootstrap.min.css" rel="stylesheet">
+        <link href="/static/css/profile.css" rel="stylesheet">
+		<script type="text/javascript" src="/static/js/app.js"></script>
+		<link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+	</head>
+	<body ng-controller="Profile_Data_Manager as Manager" style="height:640px;padding-top: 64px;background-color:#fff;">
+		<nav class="navbar navbar-default navbar-fixed-top">
+			<div class="navbar-header">
+				<nav class="container">
+			    	<div class="row">
+			    		<div class="col-md-2">
+						    <a class="navbar-brand" style="margin-top: 10px;" href="#">
+						        <strong>Tutor Platform</strong>
+						    </a>
+						</div>
+						<div class="col-md-9"></div>
+						<div class="col-md-1" style="margin-top:20px;">
+							<a class="btn btn-default" ng-click = "Manager.logout_user()">Logout</a>
+						</div>
+					</div>	
+			    </div>
+			</nav>
+		</nav>
+		<div class="sub-bar heading-font">
+			<div class="row">
+				<div class="col-md-1"></div>
+				<div class="col-md-10">
+					<div style="margin-top:18px;">
+						Profile Dashboard
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row content_container" style="height:100%;margin-top:5%;">
+			<div class="col-md-1"></div>
+			<div class=" col-md-10 heading_section" style="height:100%;overflow:visible;">
+				<div class="header_section_container" style="height:100%;">
+					<div class="profile_page" style="height:100%;">
+						<div class="row" style="height:40%; margin-top:20px;">
+							<div class="col-md-2" style="height:70%;">
+								<div class="avatar"></div>
+							</div>
+							<div class="col-md-1"></div>
+							<div class="col-md-4">
+								<div class="row" style="height:100%;margin-top:25px;">
+									<div class="regular-font col-md-4">Name:</div>
+									<div class="regular-font col-md-8">{%verbatim%}{{User_Profile_Basics.name}}{%endverbatim%}</div>
+								</div>
+								<div class="row" style="height:100%;margin-top:10px;">
+									<div class="regular-font col-md-4">Username:</div>
+									<div class="regular-font col-md-8">{%verbatim%}{{User_Profile_Basics.username}}{%endverbatim%}</div>
+								</div>
+								<div class="row" style="height:100%;margin-top:10px;">
+									<div class="regular-font col-md-4">E-mail :</div>
+									<div class="regular-font col-md-8">{%verbatim%}{{User_Profile_Basics.email}}{%endverbatim%}</div>
+								</div>
+								<div class="row" style="height:100%;margin-top:10px;">
+									<div class="regular-font col-md-4">Points :</div>
+									<div class="regular-font col-md-8">{%verbatim%}{{User_Profile_Basics.score}}{%endverbatim%}</div>
+								</div>
+							</div>
+							<div class="col-md-5" ng-hide= "User_Profile_Basics.user_type !== 1" style="margin-top:-30px;">
+								<div class="panel panel-default">
+									  <!-- Default panel contents -->
+									<div class="panel-heading regular-font row">
+										<div class="col-md-12"><center><strong>Overall Percentage</strong></center></div>
+									</div>
+									<ul class="list-group">
+										<li class="list-group-item">
+											<div class="row">
+												<div id="chart_percentage" style="height:100%;"></div>
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div ng-hide= "User_Profile_Basics.user_type !== 1">
+							<div class= "subheading-font" style="margin-top:50px;">Test Statistics:</div>
+							<div class="row" style="height:40%; margin-top:50px;">
+								<div class="col-md-1"></div>
+								<div class="panel panel-default">
+									  <!-- Default panel contents -->
+									<div class="panel-heading regular-font row">
+										<div class="col-md-8"><strong>Test Name</strong></div>
+										<div class="col-md-1"><strong>Score</strong></div>
+										<div class="col-md-1"></div>
+										<div class="col-md-1"></div>
+										<div class="col-md-1"></div>
+									</div>
+									<ul class="list-group">
+										<li class="list-group-item" ng-repeat="Item in User_Tests_Info">
+											<div class="row">
+												<div class="col-md-8 regular-font">
+													{%verbatim%}{{Item.name_info}}{%endverbatim%}
+												</div>
+												<div class="col-md-1 regular-font">
+													{%verbatim%}{{Item.user_score}}{%endverbatim%}
+													 / {%verbatim%}{{Item.total_score}}{%endverbatim%}
+												</div>
+												<div class="col-md-1">
+													<a href="" ng-value="{%verbatim%}{{Item.id}}{%endverbatim%}" ng-click="Manager.save_retest_id($index)" ng-model="Manager.selected_test_id" class="btn btn-danger">Retest</a>
+												</div>
+												<div class="col-md-1">
+													<a href="" ng-value="{%verbatim%}{{Item.id}}{%endverbatim%}" ng-click="Manager.view_analytics($index)" ng-model="Manager.selected_test_id" class="btn btn-success">View Analytics</a>
+												</div>
+												<div class="col-md-1">
+												</div>
+											</div>
+										</li>
+										<li class="list-group-item" ng-repeat="Item in Tests_Info">
+											<div class="row">
+												<div class="col-md-8 regular-font">
+													{%verbatim%}{{Item.name_info}}{%endverbatim%}
+												</div>
+												<div class="col-md-1 regular-font">
+													--
+												</div>
+												<div class="col-md-1"></div>
+												<div class="col-md-1">
+													<a href="" ng-value="{%verbatim%}{{Item.id}}{%endverbatim%}" ng-click="Manager.save_test_id($index)" ng-model="Manager.selected_test_id" class="btn btn-warning">Test Yourself</a>
+												</div>
+												<div class="col-md-1">
+												</div>
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<div ng-hide = "!Manager.analytics_view">
+								<div class="subheading-font" style="margin-top:50px;">Testwise Analytics:</div>
+								<div class="row" style="height:40%; margin-top:50px;">
+									<div class="col-md-6">
+										<div class="panel panel-default">
+										  <!-- Default panel contents -->
+											<div class="panel-heading regular-font row">
+												<div class="col-md-12"><center><strong>Performance Breakup</strong></center></div>
+											</div>
+											<ul class="list-group">
+												<li class="list-group-item">
+													<div class="row">
+														<div id="chart_donut" style="height:100%;"></div>
+													</div>
+												</li>
+											</ul>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="panel panel-default">
+										  <!-- Default panel contents -->
+											<div class="panel-heading regular-font row">
+												<div class="col-md-12"><center><strong>Test Summary</strong></center></div>
+											</div>
+											<ul class="list-group">
+												<li class="list-group-item">
+													<div class="row">
+														<div class="col-md-6 regular-font">Test Name: </div>
+														<div class="col-md-6 regular-font">
+															{%verbatim%}{{Test_Analytics_Info["BASIC_INFO"]["test_name"]}}{%endverbatim%}
+														</div>
+													</div>
+												</li>
+												<li class="list-group-item">
+													<div class="row">
+														<div class="col-md-6 regular-font">Score: </div>
+														<div class="col-md-6 regular-font">
+															{%verbatim%}{{Test_Analytics_Info["BASIC_INFO"]["user_score"] }}{%endverbatim%} / {%verbatim%}{{Test_Analytics_Info["BASIC_INFO"]["total_score"] }}{%endverbatim%}
+														</div>
+													</div>
+												</li>
+												<li class="list-group-item">
+													<div class="row">
+														<div class="col-md-6 regular-font">Total Time: </div>
+														<div class="col-md-6 regular-font">
+															{%verbatim%}{{Test_Analytics_Info["BASIC_INFO"]["total_time"]}}{%endverbatim%} in seconds
+														</div>
+													</div>
+												</li>
+												<li class="list-group-item">
+													<div class="row">
+														<div class="col-md-6 regular-font">Accuracy: </div>
+														<div class="col-md-6 regular-font">
+															{%verbatim%}{{Test_Analytics_Info["BASIC_INFO"]["accuracy"]}}{%endverbatim%} %
+														</div>
+													</div>
+												</li>
+												<li class="list-group-item">
+													<div class="row">
+														<div class="col-md-6 regular-font">Rank: </div>
+														<div class="col-md-6 regular-font"> 
+															In Range of 
+															{%verbatim%}{{Test_Analytics_Info["STUDENT_RANKS"]["min_user_rank"]}}{%endverbatim%} to {%verbatim%}{{Test_Analytics_Info["STUDENT_RANKS"]["max_user_rank"]}}{%endverbatim%}
+														</div>
+													</div>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="row" style="height:40%; margin-top:80px;">
+									<div class="col-md-6">
+										<div class="panel panel-default">
+										  <!-- Default panel contents -->
+											<div class="panel-heading regular-font row">
+												<div class="col-md-12"><center><strong>Time taken - Questionwise</strong></center></div>
+											</div>
+											<ul class="list-group">
+												<li class="list-group-item">
+													<div class="row">
+														<div id="chart_time_taken" style="height:100%;"></div>
+													</div>
+												</li>
+											</ul>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="panel panel-default">
+										  <!-- Default panel contents -->
+											<div class="panel-heading regular-font row">
+												<div class="col-md-12"><center><strong>Rank Curve</strong></center></div>
+											</div>
+											<ul class="list-group">
+												<li class="list-group-item">
+													<div class="row">
+														<div id="chart_rank" style="height:100%;"></div>
+													</div>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div ng-hide= "User_Profile_Basics.user_type !== 2">
+							<div class= "subheading-font" style="margin-top:50px;" ng-hide= "User_Profile_Basics.user_type == 1">Test Statistics :</div>
+							<div class="row" style="margin-top:50px;">
+								<div class="regular-font col-md-2">
+									<div class="panel panel-default">
+									  <!-- Default panel contents -->
+										<div class="panel-heading regular-font row">
+											<div class="col-md-12"><strong>Test Name</strong></div>
+										</div>
+										<ul class="list-group">
+											<li class="list-group-item" ng-repeat="Tests in Tests_Info">
+												<div class="row">
+													<div class="col-md-12 regular-font">
+														<a ng-click = "Manager.get_testwise_student_info($index)">{%verbatim%}{{Tests.name_info}}{%endverbatim%}</a>
+													</div>
+												</div>
+											</li>
+										</ul>
+									</div>
+								</div>
+								<div class="regular-font col-md-10">
+									<div class="panel panel-default">
+									  <!-- Default panel contents -->
+										<div class="panel-heading regular-font row">
+											<div class="col-md-8"><strong>Student Name</strong></div>
+											<div class="col-md-2"><strong>Rank</strong></div>
+											<div class="col-md-2"><strong>Score</strong></div>
+										</div>
+										<ul class="list-group">
+											<li class="list-group-item" ng-repeat="Item in Testwise_Student_Info['user_info'] | orderBy:'-score'">
+												<div class="row">
+													<div class="col-md-8 regular-font">
+														{%verbatim%}{{Item.user_name}}{%endverbatim%}
+													</div>
+													<div class="col-md-2 regular-font">
+														{%verbatim%}{{$index+1}}{%endverbatim%}
+													</div>
+													<div class="col-md-2 regular-font">
+														{%verbatim%}{{Item.score}}{%endverbatim%}
+													</div>
+												</div>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+							<div class= "subheading-font" style="margin-top:50px;" ng-hide= "User_Profile_Basics.user_type == 1">Teacher Controls :</div>
+							<div class="row" id="options_control" style="margin-top:50px;margin-bottom:100px;" ng-hide = "Manager.current_view !== 0">
+								<div class="col-md-1"></div>
+								<div class="col-md-2">
+									<div class="row">
+										<div class="class_image" style="height: 100px;"></div>
+									</div>
+									<div class="row" style="margin-top:30px;">
+										<a href="" ng-click="Manager.create_class_press()" class="btn btn-success">Create Class</a>
+									</div>
+								</div>
+								<div class="col-md-2"></div>
+								<div class="col-md-2">
+									<div class="row">
+										<div class="test_image" style="height: 100px;"></div>
+									</div>
+									<div class="row" style="margin-top:30px;">
+										<a href="/test_create/" class="btn btn-warning">Create Test</a>
+									</div>
+								</div>
+								<div class="col-md-2"></div>
+								<div class="col-md-2">
+									<div class="row">
+										<div class="student_image" style="height: 100px;margin-left: 25px;"></div>
+									</div>
+									<div class="row" style="margin-top:30px;">
+										<a href="" ng-click="Manager.add_student_press()" class="btn btn-danger">Add Students to Class</a>
+									</div>
+								</div>
+							</div>
+							<div class="row" id="create_class_controls" style="margin-top:50px;margin-bottom:100px;" ng-hide = "Manager.current_view !== 1">
+								<div class="col-md-3"></div>
+								<div class="col-md-6">
+									<div class="row">
+										<div class="col-md-4">
+											<div class="regular-font"><strong>Enter Class Name :</strong></div>
+										</div>
+										<div class="col-md-8">
+											<input type="text" required class="form-control" placeholder="My Physics Class" ng-model="Manager.class_name">
+										</div>
+									</div>
+									<div class="row" style="margin-top:10px;">
+										<div class="col-md-4">
+											<div class="regular-font"><strong>Enter Students email Ids (comma seperated) :</strong></div>
+										</div>
+										<div class="col-md-8">
+											<input type="text" required class="form-control" ng-model= "Manager.email_ids" placeholder="john@gmail.com,sam@hotmail.com">
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-4"></div>
+										<div class="col-md-2">
+											<a href="" ng-click="Manager.back_press()" class="btn btn-danger">Back</a>
+										</div>
+										<div class="col-md-2">
+											<a href="" ng-click="Manager.create_class()" class="btn btn-success">Create Class</a>
+										</div>
+										<div class="col-md-4"></div>
+									</div>
+								</div>
+								<div class="col-md-3"></div>
+							</div>
+							<div class="row" id="add_students_controls" style="margin-top:50px;margin-bottom:100px;" ng-hide = "Manager.current_view !== 2">
+								<div class="col-md-3"></div>
+								<div class="col-md-6">
+									<div class="row">
+										<div class="col-md-4 regular-font"><strong>Select a Class for adding Students</strong></div>
+										<div class="col-md-8">
+											<div class="btn-group item_desc col-md-4" dropdown is-o<div class="btn-group item_desc col-md-4" dropdown is-open="status.isopen">
+										    	<button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle ng-disabled="disabled">
+										        {%verbatim%}{{selected_class['class_name']}}{%endverbatim%}<span class="caret"></span>
+										      	</button>
+										      	<ul class="dropdown-menu" role="menu">
+										        	<li ng-repeat="item in class_list">
+										        		<a ng-click="Manager.select_class($index)">{%verbatim%}{{item['class_name']}}{%endverbatim%}</a>
+										        	</li>
+										        </ul>
+										    </div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-4">
+											<div class="regular-font"><strong>Enter Students email Ids (comma seperated) :</strong></div>
+										</div>
+										<div class="col-md-8">
+											<input type="text" required class="form-control" ng-model= "Manager.email_ids"placeholder="john@gmail.com,sam@hotmail.com">
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-4"></div>
+										<div class="col-md-2">
+											<a href="" ng-click="Manager.back_press()" class="btn btn-danger">Back</a>
+										</div>
+										<div class="col-md-2">
+											<a href="" ng-click="Manager.add_Student_to_class()" class="btn btn-success">Add Students to Class</a>
+										</div>
+										<div class="col-md-4"></div>
+									</div>
+								</div>
+								<div class="col-md-3"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-1"></div>
+		</div>	
+	</body>
+</html>
